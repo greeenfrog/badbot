@@ -64,7 +64,7 @@ def send_msg(igsid, msg):
     return r.json()
 
 
-def main():
+def run():
     while True:
         for c in get_conversations():
             conversation_id = c['id']
@@ -80,4 +80,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    run()
