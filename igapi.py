@@ -5,12 +5,12 @@ import time
 from bnh import get_courts
 import config
 
-fb_url = 'https://graph.facebook.com/v20.0/'
+graph_url = 'https://graph.facebook.com/v20.0/'
 conversations = {}
 
 
 def get_conversations():
-    url = f'{fb_url}{config.page_id}/conversations'
+    url = f'{graph_url}{config.page_id}/conversations'
     params = {
         'platform': 'instagram',
         'access_token': config.page_access_token,
@@ -20,7 +20,7 @@ def get_conversations():
 
 
 def get_msgs(conversation_id):
-    url = f'{fb_url}{conversation_id}'
+    url = f'{graph_url}{conversation_id}'
     params = {
         'fields': 'messages',
         'access_token': config.page_access_token,
@@ -30,7 +30,7 @@ def get_msgs(conversation_id):
 
 
 def view_msg(msg_id):
-    url = f'{fb_url}{msg_id}'
+    url = f'{graph_url}{msg_id}'
     params = {
         'fields': 'id,created_time,from,to,message',
         'access_token': config.page_access_token,
@@ -86,7 +86,7 @@ def process_request(conversation_id):
     print()
 
 def send_msg(igsid, msg):
-    url = f'{fb_url}me/messages'
+    url = f'{graph_url}me/messages'
     params = {'access_token': config.page_access_token}
     data = {
         'recipient': {'id': igsid},
