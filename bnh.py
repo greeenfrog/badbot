@@ -1,3 +1,4 @@
+import datetime as dt
 import requests
 from bs4 import BeautifulSoup
 
@@ -32,6 +33,45 @@ def get_courts(date_string, site_id=2):
     return courts
 
 
+def get_ret(msg):
+    date = None
+    if msg in ['now', 'today', 'tdy']:
+        date = dt.date.today()
+    elif msg in ['tomorrow', 'tmr']:
+        date = dt.date.today() + dt.timedelta(days=1)
+    elif len(msg) == 6 and msg.isdigit():
+        date = dt.datetime.strptime(msg, '%d%m%y').date()
+
+    if date:
+        date_string = date.strftime('%d-%b-%Y')
+        courts = get_courts(date_string)
+        if courts:
+            ret = [f'{date_string}@Apollo']
+            for hour, status in courts.items():
+                if not status['booked']:
+                    hour += ' EMPTY'
+                elif not status['free']:
+                    hour += ' FULL'
+                else:
+                    hour += f"\nBooked: {', '.join(status['booked'])}"
+                    hour += f"\nFree: {', '.join(status['free'])}"
+                ret.append(hour)
+            ret_msg = '\n\n'.join(ret)
+        else:
+            ret_msg = f'No info for date: {msg}'
+    else:
+        ret_msg = (
+            'Hi! I am a bad bot.\n\n'
+            '"now", "today" or "tdy" for court info today\n\n'
+            '"tomorrow" or "tmr" for court info tomorrow\n\n'
+            '"ddmmyy" for other dates')
+
+    return ret_msg
+
+
 if __name__ == '__main__':
-    courts = get_courts('06-Oct-2024')
-    print(courts)
+    print(get_ret('now'))
+    print()
+    print(get_ret('tmr'))
+    print()
+    print(get_ret('070724'))
