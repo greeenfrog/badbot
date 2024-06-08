@@ -37,22 +37,7 @@ def login():
     time.sleep(2)
 
 
-def send_msg(msg):
-    time.sleep(1)
-    textbox = driver.find_element(By.CSS_SELECTOR, 'div[role="textbox"]')
-    msg_lines = msg.split('\n')
-    for idx, line in enumerate(msg_lines):
-        if line:
-            textbox.send_keys(line)
-        if idx != len(msg_lines) - 1:
-            textbox.send_keys(Keys.SHIFT, Keys.ENTER)
-    textbox.send_keys(Keys.ENTER)
-    time.sleep(1)
-
-
-if __name__=='__main__':
-    driver.get(url)
-
+def add_cookies():
     try:
         with open('cookies.json') as f:
             cookies = json.load(f)
@@ -66,8 +51,25 @@ if __name__=='__main__':
     for cookie in cookies:
         driver.add_cookie(cookie)
     driver.refresh()
-
     time.sleep(2)
+
+
+def send_msg(msg):
+    time.sleep(1)
+    textbox = driver.find_element(By.CSS_SELECTOR, 'div[role="textbox"]')
+    msg_lines = msg.split('\n')
+    for idx, line in enumerate(msg_lines):
+        if line:
+            textbox.send_keys(line)
+        if idx != len(msg_lines) - 1:
+            textbox.send_keys(Keys.SHIFT, Keys.ENTER)
+    textbox.send_keys(Keys.ENTER)
+    time.sleep(1)
+
+
+def run():
+    driver.get(url)
+    add_cookies()
 
     try:
         notif_button = driver.find_element(By.CSS_SELECTOR, 'div[role="dialog"] button._a9--._ap36._a9_1')
@@ -95,7 +97,11 @@ if __name__=='__main__':
                 send_msg(ret_msg)
                 time.sleep(0.2)
 
-            time.sleep(1)
+            time.sleep(0.2)
 
         except KeyboardInterrupt:
             break
+
+
+if __name__=='__main__':
+    run()
