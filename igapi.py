@@ -47,7 +47,7 @@ def process_request(conversation_id):
     igsid = msg_data['from']['id']
     if igsid == config.igsid:
         return
-    msg = msg_data['message'].strip().lower()
+    msg = msg_data['message']
     ret_msg = bnh.get_ret(msg)
     print(send_msg(igsid, ret_msg))
     print()

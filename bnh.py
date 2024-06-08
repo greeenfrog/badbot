@@ -34,6 +34,7 @@ def get_courts(date_string, site_id=2):
 
 
 def get_ret(msg):
+    msg = msg.strip().lower()
     date = None
     if msg in ['now', 'today', 'tdy']:
         date = dt.date.today()
