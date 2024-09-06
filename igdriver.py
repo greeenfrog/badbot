@@ -17,7 +17,7 @@ if undetected:
     driver = uc.Chrome()
 else:
     from selenium import webdriver
-    driver = webdriver.Firefox()
+    driver = webdriver.Chrome()
 driver.implicitly_wait(10)
 
 url = 'https://www.instagram.com/direct/inbox/'
